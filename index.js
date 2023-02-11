@@ -1,26 +1,63 @@
 
+const yargs = require('yargs')
+const notes = require('./mod')
 
+// Customize yargs version
+yargs.version('1.1.0')
 
+// Create add command
+yargs.command({
+    command: 'add',
+    describe: 'Add a new note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        },
+        body: {
+            describe: 'Note body',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function (argv) {
+        notes.addNote(argv.title, argv.body)
+    }
+})
 
-const http = require('http');
+// Create remove command
+yargs.command({
+    command: 'remove',
+    describe: 'Remove a note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function (argv) {
+        notes.removeNote(argv.title)
+    }
+})
 
+// Create list command
+yargs.command({
+    command: 'list',
+    describe: 'List your notes',
+    handler: function () {
+        console.log('Listing out all notes')
+    }
+})
 
-const app = {};
+// Create read command
+yargs.command({
+    command: 'read',
+    describe: 'Read a note',
+    handler: function () {
+        console.log('Reading a note')
+    }
+})
 
-app.config = {
-
-    port : 3000,
-};
-
-app.createServer = ()  =>
-{
-    const server = http.createServer(app.handleReqRes);
-   server.listen(app.config.port);
-   console.log(`listening to port ${app.config.port}`);
-}
-
-app.handleReqRes = (req , res ) =>{
-    res.end('hello world');
-};
-
-app.createServer();
+yargs.parse()
