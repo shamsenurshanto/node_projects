@@ -1,7 +1,26 @@
-console.log("alhamduliilah happpy to share yea");
 
-const car = {
-    brand : "tota",
-    name : "fff"
+
+
+
+const http = require('http');
+
+
+const app = {};
+
+app.config = {
+
+    port : 3000,
+};
+
+app.createServer = ()  =>
+{
+    const server = http.createServer(app.handleReqRes);
+   server.listen(app.config.port);
+   console.log(`listening to port ${app.config.port}`);
 }
-module.exports = car;
+
+app.handleReqRes = (req , res ) =>{
+    res.end('hello world');
+};
+
+app.createServer();
